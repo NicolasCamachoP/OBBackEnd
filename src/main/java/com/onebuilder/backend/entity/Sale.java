@@ -16,7 +16,6 @@ public class Sale {
     @Column(nullable = false)
     private Date dateTime;
     @ManyToOne
-    @Column(nullable = false)
     private User clientUID;
 
     public Long getSaleID() {
