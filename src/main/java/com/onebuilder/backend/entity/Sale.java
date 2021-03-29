@@ -9,7 +9,7 @@ public class Sale {
 
     @Id
     private Long saleID;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sale")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sale")
     @Column(nullable = false)
     private List<SaleItem> saleItems;
     @Temporal(TemporalType.TIMESTAMP)

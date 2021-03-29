@@ -1,6 +1,7 @@
 package com.onebuilder.backend.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -12,7 +13,7 @@ public class Cart {
     private Long id;
     @OneToOne
     private User user;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<CartItem> cartItems;
 
     public void setId(Long id) {
