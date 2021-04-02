@@ -80,4 +80,15 @@ public class User {
     }
     private String token;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "UID=" + UID +
+                ", name='" + name + '\n' +
+                ", email='" + email + '\n' +
+                ", password='" + password + '\n' +
+                ", isAdmin=" + isAdmin +
+                ", token='" + token + '\n' +
+                '}';
+    }
 }

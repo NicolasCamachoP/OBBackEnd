@@ -6,6 +6,7 @@ import java.util.List;
 @Entity
 public class CartItem {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
     private Cart cart;

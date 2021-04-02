@@ -62,6 +62,18 @@ public class Product {
         return EAN;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "UID=" + UID +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", stock=" + stock +
+                ", price=" + price +
+                ", EAN='" + EAN + '\'' +
+                '}';
+    }
+
     public void setEAN(String EAN) {
         this.EAN = EAN;
     }

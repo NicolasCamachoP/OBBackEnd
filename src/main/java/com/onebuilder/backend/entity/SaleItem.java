@@ -65,4 +65,10 @@ public class SaleItem {
     public void setCurrentPrice(Double currentPrice) {
         this.currentPrice = currentPrice;
     }
+
+	@Override
+	public String toString() {
+		return "SaleItem [UID=" + UID + ", productEAN=" + productEAN + ", productName=" + productName
+				+ ", quantity=" + quantity + ", currentPrice=" + currentPrice + "]";
+	}
 }

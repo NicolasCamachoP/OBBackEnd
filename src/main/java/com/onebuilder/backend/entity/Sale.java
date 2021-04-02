@@ -8,15 +8,15 @@ import java.util.List;
 public class Sale {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long saleID;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sale")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "sale", cascade = CascadeType.ALL)
     @Column(nullable = false)
     private List<SaleItem> saleItems;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date dateTime;
     @ManyToOne
-    @Column(nullable = false)
     private User clientUID;
 
     public Long getSaleID() {
@@ -50,4 +50,16 @@ public class Sale {
     public void setClientUID(User clientUID) {
         this.clientUID = clientUID;
     }
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();  
+		sb.append("Sale [saleID=" + saleID + ", saleItems=" );
+		for(SaleItem si: saleItems) {
+			sb.append(si.toString() + "\n");
+		}
+		sb.append(saleItems.toString() + ", dateTime=" + dateTime + ", clientUID="
+				+ clientUID + "]");
+		return sb.toString();
+	}
 }
