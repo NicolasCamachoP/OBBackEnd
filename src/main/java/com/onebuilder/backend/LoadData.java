@@ -88,9 +88,8 @@ class LoadData {
 
 			Optional<List<Product>> products = productRepository.findByStockGreaterThan(0);
 			List<Product> productList = products.get();
-			System.out.println(productList);
 			
-			List<Sale> sales = saleRepository.findAll();
+			Optional<Sale> sales = saleRepository.findFirstByClientUID_UIDOrderByDateTimeDesc(u2.getUID());
 			System.out.println(sales);
 
 		};
