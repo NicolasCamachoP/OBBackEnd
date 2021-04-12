@@ -1,4 +1,4 @@
-package com.onebuilder.backend;
+package com.onebuilder.backend.main;
 
 import com.onebuilder.backend.entity.Product;
 import com.onebuilder.backend.entity.Sale;
