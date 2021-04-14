@@ -1,21 +1,25 @@
 package com.onebuilder.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table( name = "sales")
 public class Sale {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long saleID;
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "sale", cascade = CascadeType.ALL)
-    @Column(nullable = false)
     private List<SaleItem> saleItems;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date dateTime;
+    @JsonIgnore
     @ManyToOne
     private User clientUID;
 

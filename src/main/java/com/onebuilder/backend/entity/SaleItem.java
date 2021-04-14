@@ -1,14 +1,20 @@
 package com.onebuilder.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 public class SaleItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long UID;
+
+    @JsonIgnore
     @ManyToOne
+    @JoinColumn(name = "fk_sale", nullable = false, updatable = false)
     private Sale sale;
+
     @Column(nullable = false)
     private String productEAN;
     @Column(nullable = false)
