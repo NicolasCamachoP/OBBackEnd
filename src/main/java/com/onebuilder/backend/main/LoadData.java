@@ -1,9 +1,7 @@
 package com.onebuilder.backend.main;
 
-import com.onebuilder.backend.entity.Product;
-import com.onebuilder.backend.entity.Sale;
-import com.onebuilder.backend.entity.SaleItem;
-import com.onebuilder.backend.entity.User;
+import com.onebuilder.backend.entity.*;
+import com.onebuilder.backend.repository.CartRepository;
 import com.onebuilder.backend.repository.ProductRepository;
 import com.onebuilder.backend.repository.SaleRepository;
 import com.onebuilder.backend.repository.UserRepository;
@@ -27,6 +25,9 @@ class LoadData {
     
     @Autowired
     SaleRepository saleRepository;
+
+    @Autowired
+	CartRepository cartRepository;
 
 	@Bean
 	CommandLineRunner initDatabaseOneBuilder() {
@@ -80,8 +81,23 @@ class LoadData {
 			s1.setSaleItems(new ArrayList<SaleItem>() {{add(s11);}});
 			
 			saleRepository.save(s1);
-			
-			
+
+
+			//Cart Creation
+			Cart c1 = new Cart();
+			c1.setUser(u2);
+			//CarItem Creation
+			CartItem cc1 = new CartItem();
+			cc1.setProductEAN(p1.getEAN());
+			cc1.setQuantity(3);
+			cc1.setCurrentPrice(p1.getPrice());
+			cc1.setProductName(p1.getName());
+			cc1.setCart(c1);
+			c1.setCartItems(new ArrayList<CartItem>() {{add(cc1);}});
+			cartRepository.save(c1);
+
+			List<Cart> carts = cartRepository.findAll();
+			System.out.println(carts);
 
 			List<User> users = userRepository.findAll();
 			System.out.println(users);

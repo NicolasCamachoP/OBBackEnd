@@ -8,22 +8,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserService userService;
 
     @PostMapping("/create")
     User createUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
+        return userService.createUser(newUser);
     }
 
     @GetMapping
     List<User> findAllUsers(){
-        return userRepository.findAll();
+        return userService.getUsers();
+    }
+
+    @GetMapping("/login")
+    User loginUser(@RequestBody Map<String, Object> payload) {
+        return userService.loginUser(
+                (String)payload.get("email"),
+                (String)payload.get("password")
+        );
     }
 
 

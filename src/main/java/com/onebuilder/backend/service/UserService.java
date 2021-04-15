@@ -2,11 +2,15 @@ package com.onebuilder.backend.service;
 
 import com.onebuilder.backend.entity.User;
 import com.onebuilder.backend.exception.UserNotFoundException;
+import com.onebuilder.backend.exception.WrongUserCredentialsException;
 import com.onebuilder.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
+@Component
 public class UserService implements IUserService {
     @Autowired
     private UserRepository repo;
@@ -48,4 +52,17 @@ public class UserService implements IUserService {
     public User createUser(User user) {
         return repo.save(user);
     }
+
+    @Override
+    public List<User> getUsers() { return repo.findAll(); }
+
+    @Override
+    public User loginUser(String email, String password) {
+        System.out.println("Email: " + email + " Password: " + password);
+        System.out.println("Users: " + repo.findAll());
+        return repo.findByEmailAndPassword(email, password).orElseGet(() -> {
+            throw new WrongUserCredentialsException();
+        });
+    }
+
 }

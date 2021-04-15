@@ -1,12 +1,6 @@
 package com.onebuilder.backend.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -16,7 +10,7 @@ public class Cart {
     private Long id;
     @OneToOne
     private User user;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
 
     public void setId(Long id) {
@@ -41,5 +35,19 @@ public class Cart {
 
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Cart{" +
+                "id=" + id +
+                ", user=" + user +
+                ", cartItems= {" + "\n" );
+        for(CartItem ci: cartItems) {
+            sb.append(ci.toString() + "\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }
