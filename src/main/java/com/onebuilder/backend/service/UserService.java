@@ -1,9 +1,11 @@
 package com.onebuilder.backend.service;
 
 import com.onebuilder.backend.entity.User;
+import com.onebuilder.backend.entityDTO.UserDTO;
 import com.onebuilder.backend.exception.UserNotFoundException;
 import com.onebuilder.backend.exception.WrongUserCredentialsException;
 import com.onebuilder.backend.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,10 +59,19 @@ public class UserService implements IUserService {
     public List<User> getUsers() { return repo.findAll(); }
 
     @Override
-    public User loginUser(String email, String password) {
-        return repo.findByEmailAndPassword(email, password).orElseGet(() -> {
+    public UserDTO loginUser(String email, String password) {
+        System.out.println("Reciebed params-> Email: " + email + " Password: " + password);
+        Optional<User> user = repo.findByEmailAndPassword(email, password);
+        if (user.isPresent()){
+            System.out.println(user.get());
+            ModelMapper modelMapper = new ModelMapper();
+            UserDTO userDTO =modelMapper.map(user.get(), UserDTO.class);
+            System.out.println(userDTO.email);
+            return userDTO;
+        } else{
             throw new WrongUserCredentialsException();
-        });
+            
+        }
     }
 
 }

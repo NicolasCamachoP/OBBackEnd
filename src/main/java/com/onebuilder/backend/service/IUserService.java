@@ -1,6 +1,7 @@
 package com.onebuilder.backend.service;
 
 import com.onebuilder.backend.entity.User;
+import com.onebuilder.backend.entityDTO.UserDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,6 @@ public interface IUserService {
 
     List<User> getUsers();
 
-    User loginUser(String email, String password);
+    UserDTO loginUser(String email, String password);
 
 }
