@@ -58,8 +58,6 @@ public class UserService implements IUserService {
 
     @Override
     public User loginUser(String email, String password) {
-        System.out.println("Email: " + email + " Password: " + password);
-        System.out.println("Users: " + repo.findAll());
         return repo.findByEmailAndPassword(email, password).orElseGet(() -> {
             throw new WrongUserCredentialsException();
         });

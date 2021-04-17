@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table( name = "sales")
 public class Sale {
 
     @Id

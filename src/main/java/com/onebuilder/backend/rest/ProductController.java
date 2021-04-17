@@ -29,12 +29,12 @@ public class ProductController {
         return productService.getProductWithStock();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{EAN}")
     Product getProductById(@PathVariable Long EAN){
         return productService.getProductByEAN(EAN.toString());
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{EAN}")
     void deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
     }
@@ -44,7 +44,7 @@ public class ProductController {
         return productService.updateProduct(product, id);
     }
 
-    @PutMapping("/stock/{id}")
+    @PutMapping("/stock/{EAN}")
     void updateStockSale(@PathVariable Long EAN){
         productService.updateProductStock(EAN.toString());
     }

@@ -76,7 +76,7 @@ class LoadData {
 			s11.setCurrentPrice(p1.getPrice());
 			s11.setProductEAN(p1.getEAN());
 			s11.setProductName(p1.getName());
-			s11.setQuantity(1);
+			s11.setQuantity(4);
 			s11.setSale(s1);
 			s1.setSaleItems(new ArrayList<SaleItem>() {{add(s11);}});
 			
