@@ -6,7 +6,6 @@ public class UserDTO {
     public String email;
     public String password;
     public boolean isAdmin;
-    public String token;
 
     public void setUID(Long UID) {
         this.UID = UID;
@@ -28,7 +27,4 @@ public class UserDTO {
         isAdmin = admin;
     }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

@@ -55,14 +55,12 @@ class LoadData {
 			u1.setEmail("mateo@mateo.com");
 			u1.setPassword("test123");
 			u1.setAdmin(true);
-			u1.setToken("TODO");
 
 			User u2 = new User();
 			u2.setName("Nonito");
 			u2.setEmail("nonito@nonito.com");
 			u2.setPassword("test123");
 			u2.setAdmin(false);
-			u2.setToken("TODO1");
 			
 			userRepository.save(u1);
 			userRepository.save(u2);

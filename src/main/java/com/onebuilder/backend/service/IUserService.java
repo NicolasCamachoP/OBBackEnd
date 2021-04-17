@@ -10,13 +10,13 @@ import java.util.List;
 public interface IUserService {
     void deleteUser(Long id);
 
-    User updateUser(User user, Long id);
+    UserDTO updateUser(UserDTO user, Long id);
 
-    User getUserById(Long id);
+    UserDTO getUserById(Long id);
 
-    User createUser(User user);
+    UserDTO createUser(UserDTO user);
 
-    List<User> getUsers();
+    List<UserDTO> getUsers();
 
     UserDTO loginUser(String email, String password);
 
