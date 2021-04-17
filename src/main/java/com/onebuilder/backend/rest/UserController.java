@@ -1,6 +1,8 @@
 package com.onebuilder.backend.rest;
 
 import com.onebuilder.backend.entity.User;
+import com.onebuilder.backend.entityDTO.LoginObjectDTO;
+import com.onebuilder.backend.entityDTO.UserDTO;
 import com.onebuilder.backend.repository.UserRepository;
 import com.onebuilder.backend.service.IUserService;
 import com.onebuilder.backend.service.UserService;
@@ -12,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -28,11 +30,13 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping("/login")
-    User loginUser(@RequestBody Map<String, Object> payload) {
+    @PostMapping("/login")
+    @CrossOrigin
+    UserDTO loginUser(@RequestBody LoginObjectDTO payload) {
+        System.out.println(payload.toString());
         return userService.loginUser(
-                (String)payload.get("email"),
-                (String)payload.get("password")
+                payload.email,
+                payload.password
         );
     }
 
