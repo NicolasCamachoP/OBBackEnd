@@ -40,7 +40,7 @@ class LoadData {
 			p1.setDescription("Una gpu?");
 			p1.setStock(123);
 			Product p2 = new Product();
-			p2.setEAN("abc");
+			p2.setEAN("abd");
 			p2.setName("RTX 3070");
 			p2.setPrice(123123.0);
 			p2.setDescription("Una gpu?");
