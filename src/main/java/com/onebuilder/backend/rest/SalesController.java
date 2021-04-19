@@ -26,7 +26,7 @@ public class SalesController {
 
     @PostMapping("/create")
     SaleIngressDTO createSale(@RequestBody SaleIngressDTO newSale) {
-        System.out.println(newSale);
+        /*System.out.println(newSale);
         Sale s = new Sale();
         User u = userService.getUserById(newSale.clientID);
         List<SaleItem> siList = new ArrayList<>();
@@ -42,7 +42,8 @@ public class SalesController {
         s.setSaleItems(siList);
         s.setDateTime(new Date());
         s.setClientUID(u);
-        return salesService.createSale(s);
+        return salesService.createSale(s);*/
+        return null;
     }
 
     @GetMapping("/all")

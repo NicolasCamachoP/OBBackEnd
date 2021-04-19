@@ -70,13 +70,10 @@ public class UserService implements IUserService {
                 newUser.setPassword(user.password);
                 return modelMapper.map(repo.save(newUser), UserDTO.class);
             }catch(Exception e){
-                return new UserDTO();
-                //throw new NotValidUserException(e.getMessage());
+                throw new NotValidUserException(e.getMessage());
             }
         }else{
-            return new UserDTO();
-            //throw new EmailAlreadyTakenException(user.email);
-
+            throw new EmailAlreadyTakenException(user.email);
         }
     }
 
