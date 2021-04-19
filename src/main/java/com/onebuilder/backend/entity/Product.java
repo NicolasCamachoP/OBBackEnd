@@ -15,7 +15,7 @@ public class Product {
     private Integer stock;
     @Column(nullable = false)
     private Double price;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String EAN;
 
     public Long getUID() {

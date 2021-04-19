@@ -21,19 +21,18 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/create")
-    User createUser(@RequestBody User newUser) {
+    UserDTO createUser(@RequestBody UserDTO newUser) {
         return userService.createUser(newUser);
     }
 
-    @GetMapping
-    List<User> findAllUsers(){
+    @GetMapping("/all")
+    List<UserDTO> findAllUsers(){
         return userService.getUsers();
     }
 
     @PostMapping("/login")
     @CrossOrigin
     UserDTO loginUser(@RequestBody LoginObjectDTO payload) {
-        System.out.println(payload.toString());
         return userService.loginUser(
                 payload.email,
                 payload.password

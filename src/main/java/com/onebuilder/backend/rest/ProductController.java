@@ -30,18 +30,19 @@ public class ProductController {
         return productService.getProductWithStock();
     }
 
-    @GetMapping("/{EAN}")
-    Product getProductById(@PathVariable Long EAN){
-        return productService.getProductByEAN(EAN.toString());
+    @GetMapping("/{ean}")
+    Product getProductById(@PathVariable String ean){
+        return productService.getProductByEAN(ean);
     }
 
-    @DeleteMapping("/delete/{EAN}")
+    @DeleteMapping("/{id}")
     void deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
     }
 
     @PutMapping("/{id}")
     Product updateProduct (@RequestBody Product product, @PathVariable Long id){
+        System.out.println(id);
         return productService.updateProduct(product, id);
     }
 

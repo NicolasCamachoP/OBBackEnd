@@ -19,6 +19,8 @@ public class User {
     private String password;
     @Column(nullable = false)
     private Boolean isAdmin;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientUID")
+    private List<Sale> sales;
 
     public List<Sale> getSales() {
         return sales;
@@ -27,10 +29,6 @@ public class User {
     public void setSales(List<Sale> sales) {
         this.sales = sales;
     }
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientUID")
-    private List<Sale> sales;
-
 
     public Long getUID() {
         return UID;
@@ -72,14 +70,6 @@ public class User {
         isAdmin = admin;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-    private String token;
 
     @Override
     public String toString() {
@@ -89,7 +79,6 @@ public class User {
                 ", email='" + email + '\n' +
                 ", password='" + password + '\n' +
                 ", isAdmin=" + isAdmin +
-                ", token='" + token + '\n' +
                 '}';
     }
 }
