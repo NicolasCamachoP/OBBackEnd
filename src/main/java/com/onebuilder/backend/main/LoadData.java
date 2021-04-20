@@ -10,10 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Configuration
 class LoadData {
@@ -32,80 +29,102 @@ class LoadData {
 	@Bean
 	CommandLineRunner initDatabaseOneBuilder() {
 		return args -> {
-			//Product's Creation
-			Product p1 = new Product();
-			p1.setEAN("abc");
-			p1.setName("RTX 3060");
-			p1.setPrice(123123.0);
-			p1.setDescription("Una gpu?");
-			p1.setStock(123);
-			Product p2 = new Product();
-			p2.setEAN("abd");
-			p2.setName("RTX 3070");
-			p2.setPrice(123123.0);
-			p2.setDescription("Una gpu?");
-			p2.setStock(0);
+		    List<Product> products = new ArrayList<>();
 
-			productRepository.save(p1);
-			productRepository.save(p2);
-			
+			products.add(createProduct("RTX 3090",
+					"La GeForce RTX™ 3090 es increíblemente potente en todas las formas, por lo que te brinda un nivel de rendimiento completamente nuevo.",
+					5, 2500000, "1365489523149"));
+			products.add(createProduct("RTX 3060",
+					"La GeForce RTX™ 3060 Ti y la RTX 3060 te permiten disfrutar de los juegos más recientes con la potencia de Ampere, la segunda generación de la arquitectura RTX de NVIDIA.",
+					5, 1500000, "1365481523149"));
+			products.add(createProduct("Ryzen 5 5600X",
+					"Juega con lo mejor. Seis núcleos increíbles para quienes simplemente desean jugar.",
+					5, 1800000, "1364481553113"));
+			products.add(createProduct("Ryzen 9 5900X",
+					"El procesador que ofrece la mejor experiencia de juego del mundo. 12 núcleos para potenciar la experiencia de juego, la transmisión en vivo y mucho más.",
+					5, 2300000, "2364781563111"));
+			products.add(createProduct("G.SKILL Trident Z Royale 2x16",
+					"Memoria RAM. Diseñada para el rendimiento, la memoria G.SKILL de escritorio se diseña con componentes elegidos y probados  rigurosamente a mano.",
+					5, 900000, "2361751563222"));
+			products.add(createProduct("MPG B550 Gaming Carbon WiFi",
+					"La serie MPG saca lo mejor de los jugadores al permitirles la expresión máxima en color con iluminación RGB avanzada.",
+					5, 900000, "2361851573222"));
+
+			for(Product p : products)
+				productRepository.save(p);
+
 			//User Creation
 			User u1 = new User();
-			u1.setName("Mateo");
-			u1.setEmail("mateo@mateo.com");
-			u1.setPassword("test123");
+			u1.setName("Administrador");
+			u1.setEmail("admin@onebuilder.com");
+			u1.setPassword("admin");
 			u1.setAdmin(true);
 
 			User u2 = new User();
-			u2.setName("Nonito");
-			u2.setEmail("nonito@nonito.com");
-			u2.setPassword("test123");
+			u2.setName("Mark");
+			u2.setEmail("mark@hotmail.com");
+			u2.setPassword("mark");
 			u2.setAdmin(false);
-			
+
+			User u3 = new User();
+			u3.setName("Mateo");
+			u3.setEmail("mateo@mateo.com");
+			u3.setPassword("mateo");
+			u3.setAdmin(false);
+
 			userRepository.save(u1);
 			userRepository.save(u2);
-			
-			//Sale creation
-			Sale s1 = new Sale();
-			s1.setClientUID(u2);
-			s1.setDateTime(new Date());
-			//Sale item Creation
-			SaleItem s11 = new SaleItem();
-			s11.setCurrentPrice(p1.getPrice());
-			s11.setProductEAN(p1.getEAN());
-			s11.setProductName(p1.getName());
-			s11.setQuantity(4);
-			s11.setSale(s1);
-			s1.setSaleItems(new ArrayList<SaleItem>() {{add(s11);}});
-			
-			saleRepository.save(s1);
+			userRepository.save(u3);
 
-
-			//Cart Creation
-			Cart c1 = new Cart();
-			c1.setUser(u2);
-			//CarItem Creation
-			CartItem cc1 = new CartItem();
-			cc1.setProductEAN(p1.getEAN());
-			cc1.setQuantity(3);
-			cc1.setCurrentPrice(p1.getPrice());
-			cc1.setProductName(p1.getName());
-			cc1.setCart(c1);
-			c1.setCartItems(new ArrayList<CartItem>() {{add(cc1);}});
-			cartRepository.save(c1);
-
-			List<Cart> carts = cartRepository.findAll();
-			System.out.println(carts);
-
+			createRandomSales(10, Arrays.asList(u2, u3),products);
+/*
 			List<User> users = userRepository.findAll();
 			System.out.println(users);
 
-			Optional<List<Product>> products = productRepository.findByStockGreaterThan(0);
-			List<Product> productList = products.get();
+			List<Product> productRepo = productRepository.findAll();
+			System.out.println(productRepo);
 			
-			Optional<Sale> sales = saleRepository.findFirstByClientUID_UIDOrderByDateTimeDesc(u2.getUID());
+			List<Sale> sales = saleRepository.findAll();
 			System.out.println(sales);
-
+*/
 		};
+	}
+
+	private void createRandomSales(int quantity, List<User> users, List<Product> products){
+		System.out.println(users);
+		Random rnd = new Random();
+		for(int i = 0; i < quantity; i++){
+			Sale s = new Sale();
+			int pQuantity = rnd.nextInt(10) + 1;
+			List<SaleItem> sil = new ArrayList<>();
+			for(int j = 0; j < pQuantity; j++){
+				SaleItem si = new SaleItem();
+				int prod = rnd.nextInt(products.size() );
+				int prodQ = rnd.nextInt(4) + 1;
+				si.setSale(s);
+				si.setQuantity(prodQ);
+				si.setCurrentPrice(products.get(prod).getPrice());
+				si.setProductEAN(products.get(prod).getEAN());
+				si.setProductName(products.get(prod).getName());
+				sil.add(si);
+			}
+			s.setSaleItems(sil);
+			int randClient = rnd.nextInt(users.size());
+			s.setClientUID(users.get(randClient));
+			s.setDateTime(new Date());
+			saleRepository.save(s);
+		}
+
+	}
+
+	private Product createProduct(String name, String description, int stock, double price, String ean) {
+		Product p = new Product();
+		p.setEAN(ean);
+		p.setStock(stock);
+		p.setPrice(price);
+		p.setName(name);
+		p.setDescription(description);
+
+		return p;
 	}
 }
