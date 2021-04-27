@@ -9,12 +9,15 @@ import com.onebuilder.backend.exception.WrongUserCredentialsException;
 import com.onebuilder.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
 
 @Component
 public class UserService implements IUserService {
@@ -97,5 +100,16 @@ public class UserService implements IUserService {
             throw new WrongUserCredentialsException();
         }
     }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UserNotFoundException {
+        Optional<User> user = repo.findByEmail(email);
+        if (user.isPresent()){
+            throw  new UserNotFoundException(0l);
+        }
+        return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), emptyList());
+    }
+
+
 
 }
