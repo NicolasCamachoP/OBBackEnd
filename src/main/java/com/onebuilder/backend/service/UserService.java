@@ -101,15 +101,5 @@ public class UserService implements IUserService {
         }
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UserNotFoundException {
-        Optional<User> user = repo.findByEmail(email);
-        if (user.isPresent()){
-            throw  new UserNotFoundException(0l);
-        }
-        return new org.springframework.security.core.userdetails.User(user.get().getEmail(), user.get().getPassword(), emptyList());
-    }
-
-
 
 }

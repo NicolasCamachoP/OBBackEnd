@@ -1,16 +1,12 @@
 package com.onebuilder.backend.rest;
 
-import com.onebuilder.backend.entity.User;
 import com.onebuilder.backend.entityDTO.LoginObjectDTO;
 import com.onebuilder.backend.entityDTO.UserDTO;
-import com.onebuilder.backend.repository.UserRepository;
 import com.onebuilder.backend.service.IUserService;
-import com.onebuilder.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -25,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    List<UserDTO> findAllUsers(){
+    List<UserDTO> findAllUsers() {
         return userService.getUsers();
     }
 

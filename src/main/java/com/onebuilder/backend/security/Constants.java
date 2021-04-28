@@ -3,7 +3,7 @@ package com.onebuilder.backend.security;
 public class Constants {
 
     // Spring Security
-    public static final String LOGIN_URL = "/user/login";
+    public static final String LOGIN_URL = "/login";
     public static final String LOGOUT_URL = "/logout";
     public static final String HEADER_AUTHORIZACION_KEY = "Authorization";
     public static final String TOKEN_BEARER_PREFIX = "Bearer ";

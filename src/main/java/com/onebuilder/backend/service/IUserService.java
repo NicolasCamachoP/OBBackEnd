@@ -22,6 +22,4 @@ public interface IUserService {
 
     UserDTO loginUser(String email, String password);
 
-    UserDetails loadUserByUsername(String username);
-
 }

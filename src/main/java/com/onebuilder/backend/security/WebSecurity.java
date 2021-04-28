@@ -1,5 +1,6 @@
 package com.onebuilder.backend.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -23,13 +24,12 @@ import static com.onebuilder.backend.security.Constants.LOGIN_URL;
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private final Environment env;
-    private final UserDetailsService userDetailsService;
 
-    public WebSecurity(Environment env, UserDetailsService userDetailsService) {
-        this.env = env;
-        this.userDetailsService = userDetailsService;
-    }
+
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -39,22 +39,23 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        super.configure(httpSecurity);
         httpSecurity
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
-                .anyRequest().authenticated().and()
+                .authorizeRequests().antMatchers(LOGIN_URL).permitAll()
+                .anyRequest().authenticated()
+                .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()));
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
+    /*
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -79,7 +80,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private Long getLongProperty(String key) {
         return Long.valueOf(env.getProperty(key));
-    }
+    }*/
 
 
 }

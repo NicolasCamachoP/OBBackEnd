@@ -1,0 +1,40 @@
+package com.onebuilder.backend.service;
+
+import com.onebuilder.backend.entity.User;
+import com.onebuilder.backend.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+    private final UserRepository repo;
+
+    public UserDetailsServiceImpl(UserRepository usuarioRepository) {
+        this.repo = usuarioRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        Optional<User> usuario = repo.findByEmail(email);
+        if (!usuario.isPresent()) {
+            throw new UsernameNotFoundException(email);
+        }
+        return new org.springframework.security.core.userdetails.User(
+                usuario.get().getEmail(),
+                usuario.get().getPassword(),
+                emptyList()
+        );
+
+    }
+
+}
+
