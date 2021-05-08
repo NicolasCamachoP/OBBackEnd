@@ -2,6 +2,8 @@ package com.onebuilder.backend.service;
 
 import com.onebuilder.backend.entity.User;
 import com.onebuilder.backend.entityDTO.UserDTO;
+import com.onebuilder.backend.exception.UserNotFoundException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
