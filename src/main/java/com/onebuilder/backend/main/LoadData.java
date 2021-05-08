@@ -1,10 +1,7 @@
 package com.onebuilder.backend.main;
 
 import com.onebuilder.backend.entity.*;
-import com.onebuilder.backend.repository.CartRepository;
-import com.onebuilder.backend.repository.ProductRepository;
-import com.onebuilder.backend.repository.SaleRepository;
-import com.onebuilder.backend.repository.UserRepository;
+import com.onebuilder.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +22,9 @@ class LoadData {
 
     @Autowired
 	CartRepository cartRepository;
+
+    @Autowired
+	RoleRepository roleRepository;
 
 	@Bean
 	CommandLineRunner initDatabaseOneBuilder() {
@@ -53,40 +53,42 @@ class LoadData {
 			for(Product p : products)
 				productRepository.save(p);
 
+			//Roles creation
+			Role r1 = new Role();
+			r1.setName("ADMIN");
+			Role r2 = new Role();
+			r2.setName("USER");
+
+			roleRepository.save(r1);
+			roleRepository.save(r2);
+
 			//User Creation
 			User u1 = new User();
 			u1.setName("Administrador");
 			u1.setEmail("admin@onebuilder.com");
 			u1.setPassword("admin");
 			u1.setAdmin(true);
+			u1.setRole(r1);
 
 			User u2 = new User();
 			u2.setName("Mark");
 			u2.setEmail("mark@hotmail.com");
 			u2.setPassword("mark");
 			u2.setAdmin(false);
+			u2.setRole(r2);
 
 			User u3 = new User();
 			u3.setName("Mateo");
 			u3.setEmail("mateo@mateo.com");
 			u3.setPassword("mateo");
 			u3.setAdmin(false);
+			u3.setRole(r2);
 
 			userRepository.save(u1);
 			userRepository.save(u2);
 			userRepository.save(u3);
 
-			createRandomSales(10, Arrays.asList(u2, u3),products);
-/*
-			List<User> users = userRepository.findAll();
-			System.out.println(users);
-
-			List<Product> productRepo = productRepository.findAll();
-			System.out.println(productRepo);
-			
-			List<Sale> sales = saleRepository.findAll();
-			System.out.println(sales);
-*/
+			createRandomSales(1000, Arrays.asList(u2, u3),products);
 		};
 	}
 

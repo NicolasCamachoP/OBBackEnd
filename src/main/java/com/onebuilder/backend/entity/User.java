@@ -21,6 +21,8 @@ public class User {
     private Boolean isAdmin;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "clientUID")
     private List<Sale> sales;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Role role;
 
     public List<Sale> getSales() {
         return sales;
@@ -70,15 +72,23 @@ public class User {
         isAdmin = admin;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "UID=" + UID +
-                ", name='" + name + '\n' +
-                ", email='" + email + '\n' +
-                ", password='" + password + '\n' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
+                ", role=" + role +
                 '}';
     }
 }

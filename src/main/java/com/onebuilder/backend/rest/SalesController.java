@@ -10,6 +10,7 @@ import com.onebuilder.backend.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ public class SalesController {
     @Autowired
     private IUserService userService;
 
+    @RolesAllowed("ROLE_USER")
     @PostMapping("/create")
     SaleIngressDTO createSale(@RequestBody SaleIngressDTO newSale) {
         /*System.out.println(newSale);
@@ -45,17 +47,21 @@ public class SalesController {
         return null;
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @GetMapping("/all")
     List<SaleIngressDTO> getAllSales() {
         return salesService.getSales();
     }
 
+    @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @GetMapping("/{id}")
     Sale getById(@PathVariable Long id) { return salesService.getSale(id); }
 
+    @RolesAllowed("ROLE_USER")
     @GetMapping("/fromclient/all/{id}")
     List<Sale> getAllFromClient(@PathVariable Long id) { return salesService.getSalesFromClient(id); }
 
+    @RolesAllowed("ROLE_USER")
     @GetMapping("/fromclient/last/{id}")
     Sale getLastFromClient(@PathVariable Long id) { return salesService.getLastSaleFromClient(id); }
 
