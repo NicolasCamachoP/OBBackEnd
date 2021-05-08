@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 
-@Component
+@Service
 public class UserService implements IUserService {
     @Autowired
     private UserRepository repo;
@@ -94,8 +95,7 @@ public class UserService implements IUserService {
         Optional<User> user = repo.findByEmailAndPassword(email, password);
         if (user.isPresent()){
             ModelMapper modelMapper = new ModelMapper();
-            UserDTO userDTO =modelMapper.map(user.get(), UserDTO.class);
-            return userDTO;
+            return modelMapper.map(user.get(), UserDTO.class);
         } else{
             throw new WrongUserCredentialsException();
         }

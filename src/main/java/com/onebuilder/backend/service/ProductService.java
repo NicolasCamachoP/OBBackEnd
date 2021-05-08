@@ -1,43 +1,71 @@
 package com.onebuilder.backend.service;
 
 import com.onebuilder.backend.entity.Product;
+import com.onebuilder.backend.entityDTO.ProductDTO;
+import com.onebuilder.backend.exception.ProductAlreadyRegisteredException;
 import com.onebuilder.backend.exception.ProductNotFoundException;
+import com.onebuilder.backend.exception.ProductNotValidException;
+import com.onebuilder.backend.exception.StockNotEnoughException;
 import com.onebuilder.backend.repository.ProductRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Component
+@Service
 public class ProductService implements IProductService {
 
     @Autowired
     private ProductRepository repo;
 
     @Override
-    public Product createProduct(Product p) {
-        return repo.save(p);
+    public ProductDTO createProduct(ProductDTO p) {
+        ModelMapper modelMapper = new ModelMapper();
+        if (!repo.findProductByEAN(p.getEAN()).isPresent()) {
+            try {
+                return modelMapper.map(repo.save(modelMapper.map(p, Product.class)), ProductDTO.class);
+            } catch (Exception e) {
+                throw new ProductNotValidException("Not Valid Product");
+            }
+        } else {
+            throw new ProductAlreadyRegisteredException("Already registered " + p.getEAN());
+        }
     }
 
     @Override
-    public Product getProductByEAN(String EAN) {
+    public ProductDTO getProductByEAN(String EAN) {
         Optional<Product> p = repo.findProductByEAN(EAN);
         if (p.isPresent()) {
-            return p.get();
+            return new ModelMapper().map(p.get(), ProductDTO.class);
         } else {
             throw new ProductNotFoundException(EAN);
         }
     }
 
     @Override
-    public List<Product> getProducts() {
-        return repo.findAll();
+    public Page<Product> getProducts(Pageable pageable) {
+        /*
+        List<Product> products = repo.findAll();
+        ModelMapper modelMapper = new ModelMapper();
+        return products.stream().map(
+                product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+*/
+        return repo.findAll(pageable);
     }
 
     @Override
-    public List<Product> getProductWithStock() {
-        return repo.findByStockGreaterThan(0).get();
+    public List<ProductDTO> getProductWithStock() {
+        List<Product> products = repo.findByStockGreaterThan(0).get();
+        ModelMapper modelMapper = new ModelMapper();
+        return products.stream().map(
+                product -> modelMapper.map(product, ProductDTO.class)
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -52,28 +80,27 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProduct(Product p, Long id) {
-        return repo.findById(id).map(pr -> {
-            pr.setEAN(p.getEAN());
-            pr.setDescription(p.getDescription());
-            pr.setName(p.getName());
-            pr.setPrice(p.getPrice());
-            pr.setStock(p.getStock());
-
-            return repo.save(pr);
-        }).orElseGet(() -> {
-            throw new ProductNotFoundException(id.toString());
-        });
+    public ProductDTO updateProduct(ProductDTO p) {
+        if (!repo.findById(p.getUID()).isPresent()) {
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(repo.save(modelMapper.map(p, Product.class)), ProductDTO.class);
+        } else {
+            throw new ProductNotFoundException("Product Not Found");
+        }
     }
 
     @Override
-    public void updateProductStock(String EAN) {
+    public void updateProductStock(String EAN, int quantity) {
         Optional<Product> p = repo.findProductByEAN(EAN);
         if (p.isPresent()) {
             Product pr = p.get();
-            pr.setStock(pr.getStock() - 1);
-            this.updateProduct(pr, pr.getUID());
-        }else{
+            if (pr.getStock() >= quantity) {
+                pr.setStock(pr.getStock() - quantity);
+                repo.save(pr);
+            } else {
+                throw new StockNotEnoughException("Quantity exceeds stock");
+            }
+        } else {
             throw new ProductNotFoundException(EAN);
         }
     }

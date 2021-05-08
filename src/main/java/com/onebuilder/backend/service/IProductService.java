@@ -1,25 +1,28 @@
 package com.onebuilder.backend.service;
 
 import com.onebuilder.backend.entity.Product;
+import com.onebuilder.backend.entityDTO.ProductDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface IProductService {
-    Product createProduct(Product p);
+    ProductDTO createProduct(ProductDTO p);
 
-    Product getProductByEAN(String EAN);
+    ProductDTO getProductByEAN(String EAN);
 
-    List<Product> getProducts();
+    Page<Product> getProducts(Pageable pageable);
 
-    List<Product> getProductWithStock();
+    List<ProductDTO> getProductWithStock();
 
     void deleteProduct(Long id);
 
-    Product updateProduct(Product p, Long id);
+    ProductDTO updateProduct(ProductDTO p);
 
-    void updateProductStock(String EAN);
+    void updateProductStock(String EAN, int quantity);
 
 
 }
