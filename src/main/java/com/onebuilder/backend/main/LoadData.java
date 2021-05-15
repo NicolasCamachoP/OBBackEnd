@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
@@ -27,8 +28,9 @@ class LoadData {
 	RoleRepository roleRepository;
 
 	@Bean
-	CommandLineRunner initDatabaseOneBuilder() {
+	CommandLineRunner initDatabaseOneBuilder(BCryptPasswordEncoder bcrypt) {
 		return args -> {
+			/*
 		    List<Product> products = new ArrayList<>();
 
 			products.add(createProduct("RTX 3090",
@@ -66,21 +68,21 @@ class LoadData {
 			User u1 = new User();
 			u1.setName("Administrador");
 			u1.setEmail("admin@onebuilder.com");
-			u1.setPassword("admin");
+			u1.setPassword(bcrypt.encode("admin"));
 			u1.setAdmin(true);
 			u1.setRole(r1);
 
 			User u2 = new User();
 			u2.setName("Mark");
 			u2.setEmail("mark@hotmail.com");
-			u2.setPassword("mark");
+			u2.setPassword(bcrypt.encode("mark"));
 			u2.setAdmin(false);
 			u2.setRole(r2);
 
 			User u3 = new User();
 			u3.setName("Mateo");
 			u3.setEmail("mateo@mateo.com");
-			u3.setPassword("mateo");
+			u3.setPassword(bcrypt.encode("mateo"));
 			u3.setAdmin(false);
 			u3.setRole(r2);
 
@@ -88,7 +90,7 @@ class LoadData {
 			userRepository.save(u2);
 			userRepository.save(u3);
 
-			createRandomSales(1000, Arrays.asList(u2, u3),products);
+			createRandomSales(10, Arrays.asList(u2, u3),products);*/
 		};
 	}
 

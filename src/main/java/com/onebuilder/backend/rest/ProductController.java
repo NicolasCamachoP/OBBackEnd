@@ -42,6 +42,13 @@ public class ProductController {
         return new PageImpl(result, pageable, products.getTotalElements());
     }
 
+    @RolesAllowed("ROLE_ADMIN")
+    @GetMapping("/all")
+    List<ProductDTO> findAllProducts() {
+        return productService.getAllProducts();
+    }
+
+
     private List<ProductDTO> convertDTO(Page<Product> products) {
         List<ProductDTO> result = new ArrayList<>();
         ModelMapper modelMapper = new ModelMapper();

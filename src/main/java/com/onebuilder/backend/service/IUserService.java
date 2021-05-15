@@ -14,9 +14,11 @@ public interface IUserService {
 
     UserDTO updateUser(UserDTO user, Long id);
 
+    UserDTO getUserByEmail(String email);
+
     UserDTO getUserById(Long id);
 
-    UserDTO createUser(UserDTO user);
+    UserDTO createUser(UserDTO user, String role);
 
     List<UserDTO> getUsers();
 

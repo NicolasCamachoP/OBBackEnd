@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +30,9 @@ public class UserService implements IUserService {
     @Override
     public void deleteUser(Long id) {
         Optional<User> user = repo.findById(id);
-        if(user.isPresent()){
+        if (user.isPresent()) {
             repo.delete(user.get());
-        }else{
+        } else {
             throw new UserNotFoundException(id);
         }
 
@@ -52,20 +54,30 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public UserDTO getUserByEmail(String email) {
+        Optional<User> user = repo.findByEmail(email);
+        if (user.isPresent()) {
+            return new ModelMapper().map(user.get(), UserDTO.class);
+        } else {
+            throw new UserNotFoundException(0l);
+        }
+    }
+
+    @Override
     public UserDTO getUserById(Long id) {
         Optional<User> foundUser = repo.findById(id);
-        if (foundUser.isPresent()){
+        if (foundUser.isPresent()) {
             ModelMapper modelMapper = new ModelMapper();
             return modelMapper.map(foundUser.get(), UserDTO.class);
-        }else{
+        } else {
             throw new UserNotFoundException(id);
         }
     }
 
     @Override
-    public UserDTO createUser(UserDTO user) {
+    public UserDTO createUser(UserDTO user, String role) {
         ModelMapper modelMapper = new ModelMapper();
-        if (!repo.findByEmail(user.email).isPresent()){
+        if (!repo.findByEmail(user.email).isPresent()) {
             try {
                 User newUser = new User();
                 newUser.setName(user.name);
@@ -73,10 +85,10 @@ public class UserService implements IUserService {
                 newUser.setEmail(user.email);
                 newUser.setPassword(user.password);
                 return modelMapper.map(repo.save(newUser), UserDTO.class);
-            }catch(Exception e){
+            } catch (Exception e) {
                 throw new NotValidUserException(e.getMessage());
             }
-        }else{
+        } else {
             throw new EmailAlreadyTakenException(user.email);
         }
     }
@@ -93,10 +105,10 @@ public class UserService implements IUserService {
     @Override
     public UserDTO loginUser(String email, String password) {
         Optional<User> user = repo.findByEmailAndPassword(email, password);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             ModelMapper modelMapper = new ModelMapper();
             return modelMapper.map(user.get(), UserDTO.class);
-        } else{
+        } else {
             throw new WrongUserCredentialsException();
         }
     }

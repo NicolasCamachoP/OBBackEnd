@@ -16,9 +16,9 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @PostMapping("/create")
-    UserDTO createUser(@RequestBody UserDTO newUser) {
-        return userService.createUser(newUser);
+    @PostMapping("/create/{role}")
+    UserDTO createUser(@RequestBody UserDTO newUser, @PathVariable String role) {
+        return userService.createUser(newUser, role);
     }
 
     @RolesAllowed("ROLE_ADMIN")
@@ -27,14 +27,10 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PostMapping("/login")
-    @CrossOrigin
-    UserDTO loginUser(@RequestBody LoginObjectDTO payload) {
-        return userService.loginUser(
-                payload.email,
-                payload.password
-        );
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping("/{email}")
+    UserDTO findUser(@PathVariable String email) {
+        return userService.getUserByEmail(email);
     }
-
 
 }

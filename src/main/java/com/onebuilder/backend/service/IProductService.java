@@ -24,5 +24,5 @@ public interface IProductService {
 
     void updateProductStock(String EAN, int quantity);
 
-
+    List<ProductDTO> getAllProducts();
 }

@@ -1,4 +1,4 @@
-package com.onebuilder.backend;
+/*package com.onebuilder.backend;
 
 import com.onebuilder.backend.main.BackendApplication;
 import org.junit.jupiter.api.Test;
@@ -12,3 +12,4 @@ class BackendApplicationTests {
 	}
 
 }
+*/

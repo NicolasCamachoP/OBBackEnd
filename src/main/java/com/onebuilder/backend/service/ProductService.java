@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -81,7 +82,7 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductDTO updateProduct(ProductDTO p) {
-        if (!repo.findById(p.getUID()).isPresent()) {
+        if (repo.findById(p.getUID()).isPresent()) {
             ModelMapper modelMapper = new ModelMapper();
             return modelMapper.map(repo.save(modelMapper.map(p, Product.class)), ProductDTO.class);
         } else {
@@ -103,5 +104,15 @@ public class ProductService implements IProductService {
         } else {
             throw new ProductNotFoundException(EAN);
         }
+    }
+
+    @Override
+    public List<ProductDTO> getAllProducts() {
+        List<Product> products = new ArrayList<>();
+        repo.findAll().forEach(products::add);
+        ModelMapper modelMapper = new ModelMapper();
+        return products.stream().map(
+                product -> modelMapper.map(product, ProductDTO.class)
+        ).collect(Collectors.toList());
     }
 }
