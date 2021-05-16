@@ -64,11 +64,21 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDTO getUserById(Long id) {
+    public UserDTO getUserDTOById(Long id) {
         Optional<User> foundUser = repo.findById(id);
         if (foundUser.isPresent()) {
             ModelMapper modelMapper = new ModelMapper();
             return modelMapper.map(foundUser.get(), UserDTO.class);
+        } else {
+            throw new UserNotFoundException(id);
+        }
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        Optional<User> foundUser = repo.findById(id);
+        if (foundUser.isPresent()) {
+            return foundUser.get();
         } else {
             throw new UserNotFoundException(id);
         }

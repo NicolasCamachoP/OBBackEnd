@@ -6,13 +6,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ISalesService {
-    Sale getSale(Long id);
+    SaleIngressDTO getSale(Long id);
 
     List<SaleIngressDTO> getSales();
 
-    SaleIngressDTO createSale(Sale newSale);
+    SaleIngressDTO createSale(SaleIngressDTO newSale);
 
-    List<Sale> getSalesFromClient(Long clientID);
+    List<SaleIngressDTO> getSalesFromClient(Long clientID);
 
-    Sale getLastSaleFromClient(Long clientID);
+    SaleIngressDTO getLastSaleFromClient(Long clientID);
 }

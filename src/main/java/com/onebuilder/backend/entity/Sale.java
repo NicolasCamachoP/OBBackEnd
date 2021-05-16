@@ -20,7 +20,6 @@ public class Sale {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date dateTime;
-    @JsonIgnore
     @ManyToOne
     private User clientUID;
 

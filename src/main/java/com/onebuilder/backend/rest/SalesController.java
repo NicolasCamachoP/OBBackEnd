@@ -27,24 +27,7 @@ public class SalesController {
     @RolesAllowed("ROLE_USER")
     @PostMapping("/create")
     SaleIngressDTO createSale(@RequestBody SaleIngressDTO newSale) {
-        /*System.out.println(newSale);
-        Sale s = new Sale();
-        User u = userService.getUserById(newSale.clientID);
-        List<SaleItem> siList = new ArrayList<>();
-        for(SaleItemIngressDTO si : newSale.saleItems){
-            SaleItem siParsed = new SaleItem();
-            siParsed.setCurrentPrice(si.currentPrice);
-            siParsed.setProductEAN(si.productEAN);
-            siParsed.setQuantity(si.quantity);
-            siParsed.setProductName(si.productName);
-            siParsed.setSale(s);
-            siList.add(siParsed);
-        }
-        s.setSaleItems(siList);
-        s.setDateTime(new Date());
-        s.setClientUID(u);
-        return salesService.createSale(s);*/
-        return null;
+        return salesService.createSale(newSale);
     }
 
     @RolesAllowed("ROLE_ADMIN")
@@ -55,15 +38,15 @@ public class SalesController {
 
     @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
     @GetMapping("/{id}")
-    Sale getById(@PathVariable Long id) { return salesService.getSale(id); }
+    SaleIngressDTO getById(@PathVariable Long id) { return salesService.getSale(id); }
 
     @RolesAllowed("ROLE_USER")
-    @GetMapping("/fromclient/all/{id}")
-    List<Sale> getAllFromClient(@PathVariable Long id) { return salesService.getSalesFromClient(id); }
+    @GetMapping("/client/all/{id}")
+    List<SaleIngressDTO> getAllFromClient(@PathVariable Long id) { return salesService.getSalesFromClient(id); }
 
     @RolesAllowed("ROLE_USER")
-    @GetMapping("/fromclient/last/{id}")
-    Sale getLastFromClient(@PathVariable Long id) { return salesService.getLastSaleFromClient(id); }
+    @GetMapping("/client/last/{id}")
+    SaleIngressDTO getLastFromClient(@PathVariable Long id) { return salesService.getLastSaleFromClient(id); }
 
 
 }

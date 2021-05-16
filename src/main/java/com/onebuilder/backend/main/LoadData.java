@@ -30,8 +30,7 @@ class LoadData {
 	@Bean
 	CommandLineRunner initDatabaseOneBuilder(BCryptPasswordEncoder bcrypt) {
 		return args -> {
-			/*
-		    List<Product> products = new ArrayList<>();
+		    /*List<Product> products = new ArrayList<>();
 
 			products.add(createProduct("RTX 3090",
 					"La GeForce RTX™ 3090 es increíblemente potente en todas las formas, por lo que te brinda un nivel de rendimiento completamente nuevo.",

@@ -16,7 +16,9 @@ public interface IUserService {
 
     UserDTO getUserByEmail(String email);
 
-    UserDTO getUserById(Long id);
+    UserDTO getUserDTOById(Long id);
+
+    User getUserById(Long id);
 
     UserDTO createUser(UserDTO user, String role);
 

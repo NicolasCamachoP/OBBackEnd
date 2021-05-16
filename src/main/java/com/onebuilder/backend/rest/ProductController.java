@@ -59,7 +59,7 @@ public class ProductController {
     }
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
-    @GetMapping
+    @GetMapping("/stock")
     List<ProductDTO> findAllProductsWithStock() {
         return productService.getProductWithStock();
     }
