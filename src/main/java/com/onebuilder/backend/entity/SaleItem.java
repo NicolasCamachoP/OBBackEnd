@@ -1,16 +1,13 @@
 package com.onebuilder.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
 public class SaleItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long UID;
+    private Long id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "fk_sale", nullable = false, updatable = false)
     private Sale sale;
@@ -24,12 +21,12 @@ public class SaleItem {
     @Column(nullable = false)
     private Double currentPrice;
 
-    public Long getUID() {
-        return UID;
+    public Long getId() {
+        return id;
     }
 
-    public void setUID(Long UID) {
-        this.UID = UID;
+    public void setId(Long UID) {
+        this.id = UID;
     }
 
     public Sale getSale() {
@@ -74,7 +71,7 @@ public class SaleItem {
 
 	@Override
 	public String toString() {
-		return "SaleItem [UID=" + UID + ", productEAN=" + productEAN + ", productName=" + productName
+		return "SaleItem [UID=" + id + ", productEAN=" + productEAN + ", productName=" + productName
 				+ ", quantity=" + quantity + ", currentPrice=" + currentPrice + "]";
 	}
 }

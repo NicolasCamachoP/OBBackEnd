@@ -1,8 +1,10 @@
 package com.onebuilder.backend.service;
 
+import com.onebuilder.backend.entity.CartItem;
 import com.onebuilder.backend.entity.Sale;
 import com.onebuilder.backend.entity.SaleItem;
 import com.onebuilder.backend.entity.User;
+import com.onebuilder.backend.entityDTO.CartItemDTO;
 import com.onebuilder.backend.entityDTO.ProductDTO;
 import com.onebuilder.backend.entityDTO.SaleIngressDTO;
 import com.onebuilder.backend.entityDTO.SaleItemIngressDTO;
@@ -11,6 +13,8 @@ import com.onebuilder.backend.exception.SaleNotFoundException;
 import com.onebuilder.backend.repository.SaleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -128,6 +132,37 @@ public class SalesService implements ISalesService {
         saleDTO.setDateTime(sale.getDateTime());
         saleDTO.setSaleID(sale.getSaleID());
         for(SaleItem si: sale.getSaleItems()){
+            salesIDTO.add(modelMapper.map(si, SaleItemIngressDTO.class));
+        }
+        saleDTO.setSaleItems(salesIDTO);
+        return saleDTO;
+    }
+
+    @Override
+    public SaleIngressDTO createSale(List<CartItem> items) {
+        ModelMapper modelMapper = new ModelMapper();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Sale newSale = new Sale();
+        newSale.setClientUID(userService.getUserFromCredentials(auth.getName()));
+        newSale.setDateTime(new Date());
+        List<SaleItem> saleItems = new ArrayList<>();
+        for(CartItem ci: items){
+            SaleItem si = new SaleItem();
+            si.setSale(newSale);
+            si.setCurrentPrice(ci.getCurrentPrice());
+            si.setProductEAN(ci.getProductEAN());
+            si.setProductName(ci.getProductName());
+            si.setQuantity(ci.getQuantity());
+            saleItems.add(si);
+        }
+        newSale.setSaleItems(saleItems);
+        newSale = repo.save(newSale);
+        SaleIngressDTO saleDTO = new SaleIngressDTO();
+        saleDTO.setClientID(newSale.getClientUID().getUID());
+        saleDTO.setDateTime(newSale.getDateTime());
+        saleDTO.setSaleID(newSale.getSaleID());
+        List<SaleItemIngressDTO> salesIDTO = new ArrayList<>();
+        for(SaleItem si: newSale.getSaleItems()){
             salesIDTO.add(modelMapper.map(si, SaleItemIngressDTO.class));
         }
         saleDTO.setSaleItems(salesIDTO);

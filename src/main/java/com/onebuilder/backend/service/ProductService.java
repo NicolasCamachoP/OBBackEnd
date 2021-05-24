@@ -50,13 +50,6 @@ public class ProductService implements IProductService {
 
     @Override
     public Page<Product> getProducts(Pageable pageable) {
-        /*
-        List<Product> products = repo.findAll();
-        ModelMapper modelMapper = new ModelMapper();
-        return products.stream().map(
-                product -> modelMapper.map(product, ProductDTO.class))
-                .collect(Collectors.toList());
-*/
         return repo.findAll(pageable);
     }
 
@@ -114,5 +107,10 @@ public class ProductService implements IProductService {
         return products.stream().map(
                 product -> modelMapper.map(product, ProductDTO.class)
         ).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean haveStock(String productEAN, Integer quantity) {
+        return repo.findProductByEAN(productEAN).get().getStock() >= quantity;
     }
 }

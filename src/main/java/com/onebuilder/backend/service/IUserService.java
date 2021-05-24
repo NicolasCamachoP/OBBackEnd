@@ -20,6 +20,8 @@ public interface IUserService {
 
     User getUserById(Long id);
 
+    User getUserFromCredentials(String email);
+
     UserDTO createUser(UserDTO user, String role);
 
     List<UserDTO> getUsers();

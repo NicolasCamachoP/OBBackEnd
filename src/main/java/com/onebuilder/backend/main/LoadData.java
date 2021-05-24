@@ -30,7 +30,7 @@ class LoadData {
 	@Bean
 	CommandLineRunner initDatabaseOneBuilder(BCryptPasswordEncoder bcrypt) {
 		return args -> {
-		    /*List<Product> products = new ArrayList<>();
+		    List<Product> products = new ArrayList<>();
 
 			products.add(createProduct("RTX 3090",
 					"La GeForce RTX™ 3090 es increíblemente potente en todas las formas, por lo que te brinda un nivel de rendimiento completamente nuevo.",
@@ -89,7 +89,18 @@ class LoadData {
 			userRepository.save(u2);
 			userRepository.save(u3);
 
-			createRandomSales(10, Arrays.asList(u2, u3),products);*/
+			Cart c2 = new Cart();
+			c2.setUser(u2);
+			c2.setCartItems(new ArrayList<>());
+
+			Cart c3 = new Cart();
+			c3.setUser(u3);
+			c3.setCartItems(new ArrayList<>());
+
+			cartRepository.save(c2);
+			cartRepository.save(c3);
+
+			createRandomSales(10, Arrays.asList(u2, u3),products);
 		};
 	}
 

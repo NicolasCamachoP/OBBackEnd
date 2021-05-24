@@ -27,6 +27,9 @@ public class UserService implements IUserService {
     @Autowired
     private UserRepository repo;
 
+    @Autowired
+    private ICartService cartService;
+
     @Override
     public void deleteUser(Long id) {
         Optional<User> user = repo.findById(id);
@@ -83,6 +86,15 @@ public class UserService implements IUserService {
             throw new UserNotFoundException(id);
         }
     }
+    @Override
+    public User getUserFromCredentials(String email){
+        Optional<User> foundUser = repo.findByEmail(email);
+        if (foundUser.isPresent()) {
+            return foundUser.get();
+        } else {
+            throw new UserNotFoundException(0L);
+        }
+    }
 
     @Override
     public UserDTO createUser(UserDTO user, String role) {
@@ -94,7 +106,9 @@ public class UserService implements IUserService {
                 newUser.setAdmin(user.isAdmin);
                 newUser.setEmail(user.email);
                 newUser.setPassword(user.password);
-                return modelMapper.map(repo.save(newUser), UserDTO.class);
+                User userSaved = repo.save(newUser);
+                cartService.createCart(userSaved);
+                return modelMapper.map(userSaved, UserDTO.class);
             } catch (Exception e) {
                 throw new NotValidUserException(e.getMessage());
             }
