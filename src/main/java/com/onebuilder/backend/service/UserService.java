@@ -6,10 +6,12 @@ import com.onebuilder.backend.exception.EmailAlreadyTakenException;
 import com.onebuilder.backend.exception.NotValidUserException;
 import com.onebuilder.backend.exception.UserNotFoundException;
 import com.onebuilder.backend.exception.WrongUserCredentialsException;
+import com.onebuilder.backend.repository.RoleRepository;
 import com.onebuilder.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -26,7 +28,10 @@ import static java.util.Collections.emptyList;
 public class UserService implements IUserService {
     @Autowired
     private UserRepository repo;
-
+    @Autowired
+    private RoleRepository repoRole;
+    @Autowired
+    private BCryptPasswordEncoder bCrypt;
     @Autowired
     private ICartService cartService;
 
@@ -105,7 +110,8 @@ public class UserService implements IUserService {
                 newUser.setName(user.name);
                 newUser.setAdmin(user.isAdmin);
                 newUser.setEmail(user.email);
-                newUser.setPassword(user.password);
+                newUser.setPassword(bCrypt.encode(user.password));
+                newUser.setRole(repoRole.findByName(role).get());
                 User userSaved = repo.save(newUser);
                 cartService.createCart(userSaved);
                 return modelMapper.map(userSaved, UserDTO.class);

@@ -142,6 +142,7 @@ public class SalesService implements ISalesService {
     public SaleIngressDTO createSale(List<CartItem> items) {
         ModelMapper modelMapper = new ModelMapper();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        System.err.println(auth.getName());
         Sale newSale = new Sale();
         newSale.setClientUID(userService.getUserFromCredentials(auth.getName()));
         newSale.setDateTime(new Date());

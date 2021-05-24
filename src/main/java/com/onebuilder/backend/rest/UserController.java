@@ -16,9 +16,9 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @PostMapping("/create/{role}")
-    UserDTO createUser(@RequestBody UserDTO newUser, @PathVariable String role) {
-        return userService.createUser(newUser, role);
+    @PostMapping("/create")
+    UserDTO createUser(@RequestBody UserDTO newUser) {
+        return userService.createUser(newUser, "USER");
     }
 
     @RolesAllowed("ROLE_ADMIN")

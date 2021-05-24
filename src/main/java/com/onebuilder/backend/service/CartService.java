@@ -9,6 +9,7 @@ import com.onebuilder.backend.entityDTO.ProductDTO;
 import com.onebuilder.backend.entityDTO.SaleIngressDTO;
 import com.onebuilder.backend.exception.CartNotFoundException;
 import com.onebuilder.backend.exception.StockNotEnoughException;
+import com.onebuilder.backend.repository.CartItemRepository;
 import com.onebuilder.backend.repository.CartRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import java.util.Optional;
 public class CartService implements ICartService {
     @Autowired
     private CartRepository repo;
+    @Autowired
+    private CartItemRepository repoCI;
     @Autowired
     private UserService userService;
     @Autowired
@@ -92,6 +95,8 @@ public class CartService implements ICartService {
                 }
             }
             if (index > -1) {
+                String ean =
+                        cart.get().getCartItems().get(index).getProductEAN();
                 int carItemQnt = cart.get().getCartItems().get(index).getQuantity();
                 if (carItemQnt <= 1) {
                     cart.get().getCartItems().remove(index);
@@ -99,8 +104,11 @@ public class CartService implements ICartService {
                     cart.get().getCartItems().get(index).setQuantity(carItemQnt - 1);
                 }
                 repo.save(cart.get());
+                repoCI.deleteByCart_IdAndAndProductEAN(cart.get().getId(),
+                        ean);
                 return createCartDTO(cart.get());
             }
+            System.err.println("No se encontró el producto solicitado: " + product.getName() );
             return createCartDTO(cart.get());
         } else {
             throw new CartNotFoundException(auth.getName());
@@ -111,6 +119,7 @@ public class CartService implements ICartService {
     public SaleIngressDTO removeCart() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Cart> cart = repo.findByUser(userService.getUserFromCredentials(auth.getName()));
+        System.err.println("Antes :" +cart.get());
         if (cart.isPresent()) {
             if (validPurchase(cart.get().getCartItems())) {
                 for(CartItem ci: cart.get().getCartItems()){
@@ -119,6 +128,7 @@ public class CartService implements ICartService {
                 SaleIngressDTO sale = salesService.createSale(cart.get().getCartItems());
                 cart.get().setCartItems(new ArrayList<>());
                 repo.save(cart.get());
+                repoCI.deleteAllByCart_Id(cart.get().getId());
                 return sale;
             } else {
                 throw new StockNotEnoughException("Alguno de los productos no tiene stock suficiente...");

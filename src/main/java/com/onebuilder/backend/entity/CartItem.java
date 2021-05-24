@@ -10,7 +10,7 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "fk_cart", nullable = false, updatable = false)
+    @JoinColumn(name = "fk_cart")
     private Cart cart;
 
     @Column(nullable = false)
