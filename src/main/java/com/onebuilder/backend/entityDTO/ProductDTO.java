@@ -1,7 +1,5 @@
 package com.onebuilder.backend.entityDTO;
 
-import javax.persistence.Column;
-
 public class ProductDTO {
     private Long UID;
     private String name;

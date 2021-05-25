@@ -13,11 +13,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
-
 
 import static com.onebuilder.backend.security.Constants.*;
 
@@ -43,7 +41,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_AUTHORIZACION_KEY);
         if (token != null) {
-            // Se procesa el token y se recupera el usuario.
             Claims body = Jwts.parser()
                     .setSigningKey(SUPER_SECRET_KEY)
                     .parseClaimsJws(token.replace(TOKEN_BEARER_PREFIX, ""))

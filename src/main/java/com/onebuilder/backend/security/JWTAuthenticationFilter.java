@@ -14,14 +14,12 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 
 import static com.onebuilder.backend.security.Constants.*;
 
@@ -61,7 +59,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .setIssuer(ISSUER_INFO)
                 .setClaims(claims)
                 .setSubject(((
-                        org.springframework.security.core.userdetails.User)auth.getPrincipal()).getUsername())
+                        org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SUPER_SECRET_KEY)
                 .compact();

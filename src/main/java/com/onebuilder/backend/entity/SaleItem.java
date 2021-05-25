@@ -69,9 +69,9 @@ public class SaleItem {
         this.currentPrice = currentPrice;
     }
 
-	@Override
-	public String toString() {
-		return "SaleItem [UID=" + id + ", productEAN=" + productEAN + ", productName=" + productName
-				+ ", quantity=" + quantity + ", currentPrice=" + currentPrice + "]";
-	}
+    @Override
+    public String toString() {
+        return "SaleItem [UID=" + id + ", productEAN=" + productEAN + ", productName=" + productName
+                + ", quantity=" + quantity + ", currentPrice=" + currentPrice + "]";
+    }
 }

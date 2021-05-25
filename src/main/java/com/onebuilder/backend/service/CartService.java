@@ -108,7 +108,6 @@ public class CartService implements ICartService {
                         ean);
                 return createCartDTO(cart.get());
             }
-            System.err.println("No se encontró el producto solicitado: " + product.getName() );
             return createCartDTO(cart.get());
         } else {
             throw new CartNotFoundException(auth.getName());
@@ -119,10 +118,9 @@ public class CartService implements ICartService {
     public SaleIngressDTO removeCart() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<Cart> cart = repo.findByUser(userService.getUserFromCredentials(auth.getName()));
-        System.err.println("Antes :" +cart.get());
         if (cart.isPresent()) {
             if (validPurchase(cart.get().getCartItems())) {
-                for(CartItem ci: cart.get().getCartItems()){
+                for (CartItem ci : cart.get().getCartItems()) {
                     productService.updateProductStock(ci.getProductEAN(), ci.getQuantity());
                 }
                 SaleIngressDTO sale = salesService.createSale(cart.get().getCartItems());
@@ -137,16 +135,18 @@ public class CartService implements ICartService {
             throw new CartNotFoundException(auth.getName());
         }
     }
+
     private boolean validPurchase(List<CartItem> cartItems) {
         boolean isValid = true;
-        for(CartItem ci: cartItems){
-            if (!productService.haveStock(ci.getProductEAN(), ci.getQuantity())){
+        for (CartItem ci : cartItems) {
+            if (!productService.haveStock(ci.getProductEAN(), ci.getQuantity())) {
                 isValid = false;
                 break;
             }
         }
         return isValid;
     }
+
     @Override
     public void createCart(User user) {
         Cart cart = new Cart();

@@ -1,11 +1,10 @@
 package com.onebuilder.backend.service;
-import java.util.List;
 
 import com.onebuilder.backend.entity.CartItem;
-import com.onebuilder.backend.entity.Sale;
-import com.onebuilder.backend.entityDTO.CartItemDTO;
 import com.onebuilder.backend.entityDTO.SaleIngressDTO;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface ISalesService {

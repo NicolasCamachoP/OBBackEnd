@@ -1,7 +1,6 @@
 package com.onebuilder.backend.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class CartItem {
@@ -24,9 +23,13 @@ public class CartItem {
     @Column(nullable = false)
     private Double currentPrice;
 
-    public String getProductEAN() { return productEAN; }
+    public String getProductEAN() {
+        return productEAN;
+    }
 
-    public void setProductEAN(String productEAN) { this.productEAN = productEAN; }
+    public void setProductEAN(String productEAN) {
+        this.productEAN = productEAN;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -36,20 +39,37 @@ public class CartItem {
         return id;
     }
 
-    public Integer getQuantity() { return quantity; }
+    public Integer getQuantity() {
+        return quantity;
+    }
 
-    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
-    public void setProductName(String productName) { this.productName = productName; }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-    public Double getCurrentPrice() { return currentPrice; }
+    public Double getCurrentPrice() {
+        return currentPrice;
+    }
 
-    public void setCurrentPrice(Double currentPrice) { this.currentPrice = currentPrice; }
-    public String getProductName() { return productName; }
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
 
-    public Cart getCart() { return cart; }
+    public String getProductName() {
+        return productName;
+    }
 
-    public void setCart(Cart cart) { this.cart = cart; }
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     @Override
     public String toString() {

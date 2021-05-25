@@ -1,9 +1,5 @@
 package com.onebuilder.backend.entityDTO;
 
-import com.onebuilder.backend.entity.CartItem;
-import com.onebuilder.backend.entity.User;
-
-import javax.persistence.*;
 import java.util.List;
 
 public class CartDTO {

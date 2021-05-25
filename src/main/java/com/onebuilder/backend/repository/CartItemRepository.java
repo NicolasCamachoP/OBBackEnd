@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     @Transactional
     void deleteAllByCart_Id(Long id);
+
     @Transactional
     void deleteByCart_IdAndAndProductEAN(Long id, String EAN);
 }

@@ -43,8 +43,8 @@ public class Cart {
         sb.append("Cart{" +
                 "id=" + id +
                 ", user=" + user +
-                ", cartItems= {" + "\n" );
-        for(CartItem ci: cartItems) {
+                ", cartItems= {" + "\n");
+        for (CartItem ci : cartItems) {
             sb.append(ci.toString() + "\n");
         }
         sb.append("}");

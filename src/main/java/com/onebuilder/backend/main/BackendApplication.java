@@ -13,13 +13,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //import org.
 
 
-
 @ComponentScan("com.onebuilder.backend")
 @EntityScan("com.onebuilder.backend")
 @EnableJpaRepositories("com.onebuilder.backend")
 @SpringBootApplication
 
-public class BackendApplication extends SpringBootServletInitializer{
+public class BackendApplication extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(BackendApplication.class);
@@ -30,8 +29,8 @@ public class BackendApplication extends SpringBootServletInitializer{
     }
 
     @Bean
-    public ModelMapper modelMapper(){
-       return new ModelMapper();
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
 

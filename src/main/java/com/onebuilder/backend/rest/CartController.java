@@ -17,28 +17,27 @@ public class CartController {
 
     @RolesAllowed("ROLE_USER")
     @PostMapping("/add")
-    CartDTO addProduct(@RequestBody ProductDTO product){
+    CartDTO addProduct(@RequestBody ProductDTO product) {
         return cartService.addProduct(product);
     }
 
     @RolesAllowed("ROLE_USER")
     @PostMapping("/remove")
-    CartDTO removeProduct(@RequestBody ProductDTO product){
+    CartDTO removeProduct(@RequestBody ProductDTO product) {
         return cartService.removeProduct(product);
     }
 
     @RolesAllowed("ROLE_USER")
     @GetMapping
-    CartDTO getCurrentUserCart(){
+    CartDTO getCurrentUserCart() {
         return cartService.getCurrentUserCart();
     }
 
     @RolesAllowed("ROLE_USER")
     @GetMapping("/checkout")
-    SaleIngressDTO checkOutCart(){
+    SaleIngressDTO checkOutCart() {
         return cartService.removeCart();
     }
-
 
 
 }

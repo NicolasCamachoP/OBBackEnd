@@ -1,9 +1,5 @@
 package com.onebuilder.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -55,15 +51,15 @@ public class Sale {
         this.clientUID = clientUID;
     }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();  
-		sb.append("Sale [saleID=" + saleID + ", saleItems=" );
-		for(SaleItem si: saleItems) {
-			sb.append(si.toString() + "\n");
-		}
-		sb.append(saleItems.toString() + ", dateTime=" + dateTime + ", clientUID="
-				+ clientUID + "]");
-		return sb.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Sale [saleID=" + saleID + ", saleItems=");
+        for (SaleItem si : saleItems) {
+            sb.append(si.toString() + "\n");
+        }
+        sb.append(saleItems.toString() + ", dateTime=" + dateTime + ", clientUID="
+                + clientUID + "]");
+        return sb.toString();
+    }
 }

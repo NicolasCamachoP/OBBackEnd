@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ICartService {
-    CartDTO addProduct (ProductDTO product);
+    CartDTO addProduct(ProductDTO product);
+
     CartDTO removeProduct(ProductDTO product);
-    SaleIngressDTO removeCart ();
+
+    SaleIngressDTO removeCart();
+
     void createCart(User user);
+
     CartDTO getCurrentUserCart();
 }

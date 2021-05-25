@@ -10,19 +10,12 @@ import com.onebuilder.backend.repository.RoleRepository;
 import com.onebuilder.backend.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import javax.jws.WebParam;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Collections.emptyList;
 
 @Service
 public class UserService implements IUserService {
@@ -91,8 +84,9 @@ public class UserService implements IUserService {
             throw new UserNotFoundException(id);
         }
     }
+
     @Override
-    public User getUserFromCredentials(String email){
+    public User getUserFromCredentials(String email) {
         Optional<User> foundUser = repo.findByEmail(email);
         if (foundUser.isPresent()) {
             return foundUser.get();

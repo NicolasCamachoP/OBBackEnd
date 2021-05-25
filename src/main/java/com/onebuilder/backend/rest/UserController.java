@@ -1,6 +1,5 @@
 package com.onebuilder.backend.rest;
 
-import com.onebuilder.backend.entityDTO.LoginObjectDTO;
 import com.onebuilder.backend.entityDTO.UserDTO;
 import com.onebuilder.backend.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

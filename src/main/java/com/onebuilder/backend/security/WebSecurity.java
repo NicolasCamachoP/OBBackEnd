@@ -9,15 +9,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import static com.onebuilder.backend.security.Constants.*;
+import static com.onebuilder.backend.security.Constants.CREATE_URL;
+import static com.onebuilder.backend.security.Constants.LOGIN_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -44,24 +43,19 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers(LOGIN_URL, CREATE_URL).permitAll()
                 .anyRequest().authenticated()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessHandler((request,response,authentication)->{
+                .logoutSuccessHandler((request, response, authentication) -> {
                     response.setStatus(HttpServletResponse.SC_OK);
                 }).deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()));
-        /*
-                .logout(logout->logout.permitAll().logoutSuccessHandler((request,response,authentication)->{
-                    response.setStatus(HttpServletResponse.SC_OK);
-                }).clearAuthentication(true).deleteCookies("JSESSIONID").invalidateHttpSession(true));*/
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
-    
 
 
 }
