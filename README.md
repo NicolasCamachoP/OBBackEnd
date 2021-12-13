@@ -17,3 +17,12 @@ In orther to compile and run the application you need:
 * Clone the repository 'git clone https://github.com/NicolasCamachoP/OBBackEnd.git'
 * Move to the repository root directory 'cd ../OBBackEnd'
 * Run application 'mvn spring-boot:run'
+
+## Authors
+
+* [Mateo Florido](https://github.com/mateoflorido)
+* [Nicolás Camacho](https://github.com/NicolasCamachoP)
+
+## License 
+
+[MIT](https://choosealicense.com/licenses/mit/)
