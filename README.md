@@ -25,4 +25,4 @@ In orther to compile and run the application you need:
 
 ## License 
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://github.com/NicolasCamachoP/OBBackEnd/blob/master/LICENSE)
